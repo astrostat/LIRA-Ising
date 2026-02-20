@@ -101,6 +101,62 @@ img_mean <- array(colMeans(lambda), dim = c(n, n))
 plotSource(img = img_mean, bound = z_img, title = "LIRA-Ising boundary")
 ```
 
+## Toy example (no pylira)
+
+This example builds a synthetic image, simulates LIRA-like draws, and runs the
+Ising boundary estimation. It demonstrates the complete workflow and API without requiring LIRA output files.
+
+A complete standalone script is available in [lira_ising_toy.R](lira_ising_toy.R). You can run it directly:
+
+```bash
+Rscript --vanilla lira_ising_toy.R
+```
+
+Or copy and paste the code below into an R session:
+
+```r
+library(LIsegmentation)
+
+set.seed(123)
+
+# 1) Build a synthetic source image
+n <- 16
+img_true <- rectBase(
+	bkg_param = 2,
+	max_param = 8,
+	n_img = n,
+	width = 6,
+	height = 6
+)
+
+# 2) Simulate LIRA-like draws (rows = draws, cols = pixels)
+n_draws <- 100
+lambda <- t(replicate(n_draws, c(img_true + matrix(rnorm(n^2, 0, 1), n, n))))
+
+# 3) Load partition function for this n
+G <- loadPartition(n = n, g_file = "path/to/beale_g_table_for_n16.txt")
+
+# 4) Run Ising model MCMC (small iteration counts for speed)
+ising <- isingGibbs(
+	lambda = lambda,
+	G = G,
+	init_iter = 50,
+	burn_iter = 10,
+	beta_niter = 10,
+	init_seed = 123,
+	ncores = 1
+)
+
+# 5) Extract a boundary and plot
+z_max <- getBound(Ziter = ising$ising_array, lambda = lambda, param = ising$param)
+z_img <- array(z_max, dim = c(n, n))
+
+img_mean <- array(colMeans(lambda), dim = c(n, n))
+plotSource(img = img_mean, bound = z_img, title = "Toy example boundary")
+```
+
+This example uses a smaller image (n=16) and fewer iterations than typical production runs for speed. The complete version is saved in [lira_ising_toy.R](lira_ising_toy.R).
+
 ## Notes on inputs and outputs
 
 - All images are assumed to be square `n x n`. The partition function file must match this `n`.
