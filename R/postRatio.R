@@ -25,12 +25,12 @@ postRatio<-function(Z1,Z2,lambda,param){
 
   for(ii in 1:nrow(param)){
 
-    log1<-c(log1,-1*sum((1-Z1)/2*(log(sqrt(2*pi*param$sigma0[ii])) + (lambda[ii,] - param$tau0[ii])^2/(2*param$sigma0[ii])) +
-                          (1+Z1)/2*(log(sqrt(2*pi*param$sigma1[ii]))+(lambda[ii,] - param$tau1[ii])^2/(2*param$sigma1[ii])))+
+    log1<-c(log1,-1*sum((1-Z1)/2*(log(sqrt(2*pi*param$sigma0_sq[ii])) + (lambda[ii,] - param$tau0[ii])^2/(2*param$sigma0_sq[ii])) +
+                (1+Z1)/2*(log(sqrt(2*pi*param$sigma1_sq[ii]))+(lambda[ii,] - param$tau1[ii])^2/(2*param$sigma1_sq[ii])))+
               param$beta[ii]*ising1)
 
-    log2<-c(log2,-1*sum((1-Z2)/2*(log(sqrt(2*pi*param$sigma0[ii])) + (lambda[ii,] - param$tau0[ii])^2/(2*param$sigma0[ii])) +
-                          (1+Z2)/2*(log(sqrt(2*pi*param$sigma1[ii]))+(lambda[ii,] - param$tau1[ii])^2/(2*param$sigma1[ii])))+
+    log2<-c(log2,-1*sum((1-Z2)/2*(log(sqrt(2*pi*param$sigma0_sq[ii])) + (lambda[ii,] - param$tau0[ii])^2/(2*param$sigma0_sq[ii])) +
+                (1+Z2)/2*(log(sqrt(2*pi*param$sigma1_sq[ii]))+(lambda[ii,] - param$tau1[ii])^2/(2*param$sigma1_sq[ii])))+
               param$beta[ii]*ising2)
   }
 

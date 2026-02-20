@@ -41,7 +41,12 @@ runSW<-function(lambda_draw,
   if(sum(z.cluster$cluster!=0)>0){
     z.cluster_connected<-z.cluster[z.cluster$cluster!=0,]
     z.cluster_connected.split<-split(z.cluster_connected,z.cluster_connected$cluster)
-    z.cluster_newspin<-unlist(llply(z.cluster_connected.split,sampleCluster,tau0=tau0,tau1=tau1,sigma0_sq=sigma0_sq,sigma1_sq=sigma1_sq))
+    z.cluster_newspin<-unlist(lapply(z.cluster_connected.split,
+                    sampleCluster,
+                    tau0 = tau0,
+                    tau1 = tau1,
+                    sigma0_sq = sigma0_sq,
+                    sigma1_sq = sigma1_sq))
     z.cluster_connected<-z.cluster_connected[order(z.cluster_connected$cluster),]
     z.cluster_connected$z<-z.cluster_newspin
 

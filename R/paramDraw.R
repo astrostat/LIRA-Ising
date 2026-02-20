@@ -36,9 +36,9 @@ paramDraw<-function(Z,
   for(zz in c(-1,1)){
 
     # Calculate relevant values
-    n.z<-sum(z==zz)
-    lambda.n.bar<-mean(lambda_draw[z==zz])
-    s.n<-1/(n.z-1)*sum((lambda_draw[z==zz]-lambda.n.bar)^2)
+    n.z<-sum(Z==zz)
+    lambda.n.bar<-mean(lambda_draw[Z==zz])
+    s.n<-1/(n.z-1)*sum((lambda_draw[Z==zz]-lambda.n.bar)^2)
     mu.n<-1/(n.z+1)*tau_mu + n.z/(1+n.z)*lambda.n.bar
     v.n<-sigma_df+n.z
     v.omega.n<-sigma_df*omega_sq + (n.z-1)*s.n+n.z/(1+n.z)*(lambda.n.bar-tau_mu)^2
